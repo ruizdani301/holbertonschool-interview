@@ -23,7 +23,6 @@ def canUnlockAll(boxes):
             if not vacio:
                 i = i + 1
         pass
-    print(array)
     if len(boxes) - i == len(array):
         return True
     return False
