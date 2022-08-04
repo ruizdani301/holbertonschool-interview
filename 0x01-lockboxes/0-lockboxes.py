@@ -13,7 +13,7 @@ def canUnlockAll(boxes):
 
     for date in array:
         for y in boxes[date]:
-            if y in array:
+            if y in array or y > len(boxes):
                 pass
             else:
                 array.append(y)
@@ -23,6 +23,7 @@ def canUnlockAll(boxes):
             if not vacio:
                 i = i + 1
         pass
+    print(array)
     if len(boxes) - i == len(array):
         return True
     return False
