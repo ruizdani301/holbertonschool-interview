@@ -3,26 +3,20 @@
 
 
 def canUnlockAll(boxes):
-    """this function return True if each array has the key
-        that permit to get into the respective array.
-    """
+    """ function that open boxes """
+    all_keys = []
+    for i in range(len(boxes)):
+        all_keys.append(i)
 
-    array = []
-    for x in boxes[0]:
-        array.append(x)
+    recover_keys = []
+    recover_keys.append(0)
 
-    for date in array:
-        for y in boxes[date]:
-            if y in array or y > len(boxes):
-                pass
+    for key in recover_keys:
+        for new_key in boxes[key]:
+            if ((new_key in all_keys) and (new_key not in recover_keys)):
+                recover_keys.append(new_key)
             else:
-                array.append(y)
-        i = 0
-        for vacio in boxes:
-
-            if not vacio:
-                i = i + 1
-        pass
-    if len(boxes) - i == len(array):
-        return True
+                continue
+        if all_keys == sorted(recover_keys):
+            return True
     return False
