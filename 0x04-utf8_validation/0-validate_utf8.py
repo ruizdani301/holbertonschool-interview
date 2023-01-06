@@ -1,31 +1,44 @@
 #!/usr/bin/python3
-"""
-method that determines if a given data set represents a valid UTF-8 encoding.
-"""
+""" N-queens problem """
+import sys
 
 
-def validUTF8(data):
-    """
-    Return: True if data is a valid UTF-8 encoding, else return False.
-    """
-    n_bytes = 0
-    for num in data:
-        bin_rep = format(num, '#010b')[-8:]
-        if n_bytes == 0:
-            for bit in bin_rep:
-                if bit == '0':
-                    break
-                n_bytes += 1
+if len(sys.argv) > 2 or len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    exit(1)
 
-            if n_bytes == 0:
-                continue
+if not sys.argv[1].isdigit():
+    print("N must be a number")
+    exit(1)
 
-            if n_bytes == 1 or n_bytes > 4:
-                return False
-        else:
-            if not (bin_rep[0] == '1' and bin_rep[1] == '0'):
-                return False
+if int(sys.argv[1]) < 4:
+    print("N must be at least 4")
+    exit(1)
 
-        n_bytes -= 1
+n = int(sys.argv[1])
 
-    return n_bytes == 0
+
+def queens(n, i=0, a=[], b=[], c=[]):
+    """ find possible positions """
+    if i < n:
+        for j in range(n):
+            if j not in a and i + j not in b and i - j not in c:
+                yield from queens(n, i + 1, a + [j], b + [i + j], c + [i - j])
+    else:
+        yield a
+
+
+def solve(n):
+    """ solve """
+    k = []
+    i = 0
+    for solution in queens(n, 0):
+        for s in solution:
+            k.append([i, s])
+            i += 1
+        print(k)
+        k = []
+        i = 0
+
+
+solve(n)
