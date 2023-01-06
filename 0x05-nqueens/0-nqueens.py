@@ -1,43 +1,45 @@
 #!/usr/bin/python3
-'''
-Module that solves the N Queens puzzle
-'''
-from sys import argv, exit
+#!/usr/bin/python3
+""" N-queens problem """
+import sys
 
-if __name__ == "__main__":
-    if len(argv) != 2:
-        print('Usage: nqueens N')
-        exit(1)
-    try:
-        n = int(argv[1])
-    except BaseException:
-        print('N must be a number')
-        exit(1)
-    if n < 4:
-        print('N must be at least 4')
-        exit(1)
 
-    solution = []
+if len(sys.argv) > 2 or len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    exit(1)
 
-    def solve_queens(row, n, solution):
-        if (row == n):
-            print(solution)
-        else:
-            for col in range(n):
-                placement = [row, col]
-                if valid_placement(solution, placement):
-                    solution.append(placement)
-                    solve_queens(row + 1, n, solution)
-                    solution.remove(placement)
+if not sys.argv[1].isdigit():
+    print("N must be a number")
+    exit(1)
 
-    def valid_placement(solution, placement):
-        for queen in solution:
-            if queen[1] == placement[1]:
-                return False
-            if (queen[0] + queen[1]) == (placement[0] + placement[1]):
-                return False
-            if (queen[0] - queen[1]) == (placement[0] - placement[1]):
-                return False
-        return True
+if int(sys.argv[1]) < 4:
+    print("N must be at least 4")
+    exit(1)
 
-    solve_queens(0, n, solution)
+n = int(sys.argv[1])
+
+
+def queens(n, i=0, a=[], b=[], c=[]):
+    """ find possible positions """
+    if i < n:
+        for j in range(n):
+            if j not in a and i + j not in b and i - j not in c:
+                yield from queens(n, i + 1, a + [j], b + [i + j], c + [i - j])
+    else:
+        yield a
+
+
+def solve(n):
+    """ solve """
+    k = []
+    i = 0
+    for solution in queens(n, 0):
+        for s in solution:
+            k.append([i, s])
+            i += 1
+        print(k)
+        k = []
+        i = 0
+
+
+solve(n)
